@@ -24,3 +24,25 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: 030718062
     volumes:
       - ./db:/var/lib/mysql
+
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "8000:80"
+      - "443:443"
+    environment:
+      - SERVER_NAME:onursercanyilmaz.me
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./wordpress:/var/www/html
+    networks:
+      - frontend
+    depends_on:
+      - wordpress
+
+
+
+networks:
+  frontend:
+    driver: bridge
