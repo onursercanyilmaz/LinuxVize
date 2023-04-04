@@ -1,1 +1,26 @@
 version: '3'
+
+services:
+  wordpress:
+    image: wordpress:fpm-alpine
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: 030718062
+    volumes:
+      - ./wordpress:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: 030718062
+      MYSQL_RANDOM_ROOT_PASSWORD: 030718062
+    volumes:
+      - ./db:/var/lib/mysql
