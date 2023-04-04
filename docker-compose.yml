@@ -31,16 +31,23 @@ services:
     ports:
       - "8000:80"
       - "443:443"
-    environment:
-      - SERVER_NAME:onursercanyilmaz.me
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./wordpress:/var/www/html
     networks:
       - frontend
     depends_on:
       - wordpress
+      
 
+  certbot:
+    image: certbot/certbot
+    restart: always
+    volumes:
+      - ./certbot:/etc/letsencrypt
+      - ./wordpress:/var/www/html
+    depends_on:
+      - nginx
+    command: certonly --standalone --email your@email.com --agree-tos -d www.onursercanyilmaz.me
 
 
 networks:
